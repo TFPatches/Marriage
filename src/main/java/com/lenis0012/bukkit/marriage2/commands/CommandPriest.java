@@ -5,6 +5,7 @@ import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 /**
@@ -26,6 +27,11 @@ public class CommandPriest extends Command {
 
     @Override
     public void execute() {
+        if (!marriage.getTFM().isAdmin(player))
+        {
+            sender.sendMessage(ChatColor.RED + "You are not permitted to use this command.");
+            return;
+        }
         String type = getArg(0);
         Player player = getArgAsPlayer(1);
         if(player == null) {

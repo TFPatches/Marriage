@@ -3,6 +3,7 @@ package com.lenis0012.bukkit.marriage2.internal;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.ClassPath;
 import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.TFM;
 import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ public abstract class MarriageBase implements Marriage {
     protected final MarriagePlugin plugin;
     private final ClassPath classPath;
     private MarriageCommandExecutor commandExecutor;
+    private TFM tfm = new TFM();
 
     public MarriageBase(MarriagePlugin plugin) {
         this.plugin = plugin;
@@ -36,6 +38,11 @@ public abstract class MarriageBase implements Marriage {
     @Override
     public void register(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, plugin);
+    }
+
+    public TFM getTFM()
+    {
+        return tfm;
     }
 
     @Override

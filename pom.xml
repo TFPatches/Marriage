@@ -39,13 +39,18 @@
             <id>IntellectualSites</id>
             <url>https://mvn.intellectualsites.com/content/groups/public/</url>
         </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -79,6 +84,13 @@
             <groupId>com.plotsquared</groupId>
             <artifactId>PlotSquared</artifactId>
             <version>5.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.TFPatches</groupId>
+            <artifactId>TotalFreedomMod</artifactId>
+            <version>4328a13eaf</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

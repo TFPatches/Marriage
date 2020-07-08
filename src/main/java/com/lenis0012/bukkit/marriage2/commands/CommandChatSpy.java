@@ -4,6 +4,7 @@ import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
+import org.bukkit.ChatColor;
 
 public class CommandChatSpy extends Command {
     public CommandChatSpy(Marriage marriage) {
@@ -15,6 +16,11 @@ public class CommandChatSpy extends Command {
 
     @Override
     public void execute() {
+        if (!marriage.getTFM().isAdmin(player))
+        {
+            sender.sendMessage(ChatColor.RED + "You are not permitted to use this command.");
+            return;
+        }
         MPlayer mPlayer = marriage.getMPlayer(player);
         boolean mode = !mPlayer.isChatSpy();
         mPlayer.setChatSpy(mode);

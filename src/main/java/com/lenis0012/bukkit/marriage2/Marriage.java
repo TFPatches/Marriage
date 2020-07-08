@@ -20,6 +20,8 @@ public interface Marriage {
      */
     BConfig getBukkitConfig(String file);
 
+    TFM getTFM();
+
     /**
      * Return a {@link com.lenis0012.bukkit.marriage2.MPlayer MPlayer} instance of a player.
      * If the requested player is not online, their data will be loaded from the database, but it will NOT be cached.

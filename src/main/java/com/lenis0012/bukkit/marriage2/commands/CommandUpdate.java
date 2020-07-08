@@ -6,6 +6,7 @@ import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.updater.api.Updater;
 import com.lenis0012.updater.api.Version;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandUpdate extends Command {
@@ -17,6 +18,11 @@ public class CommandUpdate extends Command {
 
     @Override
     public void execute() {
+        if (!marriage.getTFM().isAdmin(player))
+        {
+            sender.sendMessage(ChatColor.RED + "You are not permitted to use this command.");
+            return;
+        }
         final Updater updater = ((MarriageCore) marriage).getUpdater();
         final Version version = updater.getNewVersion();
         if(version == null) {
