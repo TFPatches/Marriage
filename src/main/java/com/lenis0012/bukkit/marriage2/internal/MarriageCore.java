@@ -139,12 +139,12 @@ public class MarriageCore extends MarriageBase {
         );
     }
 
-    @Register(name = "updater", type = Type.ENABLE, priority = 9)
+    /*@Register(name = "updater", type = Type.ENABLE, priority = 9)
     public void loadUpdater() {
         UpdaterFactory factory = new UpdaterFactory(plugin, "com.lenis0012.bukkit.marriage2.libs.updater");
         this.updater = factory.newUpdater(plugin.getPluginFile(), Settings.ENABLE_UPDATE_CHECKER.value());
         updater.setChannel(ReleaseType.valueOf(Settings.UPDATER_CHANNEL.value().toUpperCase()));
-    }
+    }*/
 
     @Register(name = "converter", type = Register.Type.ENABLE, priority = 10)
     public void loadConverter() {

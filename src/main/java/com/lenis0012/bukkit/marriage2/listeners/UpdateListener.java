@@ -27,7 +27,7 @@ public class UpdateListener implements Listener {
             Bukkit.getScheduler().runTaskLaterAsynchronously(core.getPlugin(), new Runnable() {
                 @Override
                 public void run() {
-                    boolean update = updater.hasUpdate();
+                    boolean update = false;
                     if(update) {
                         Bukkit.getScheduler().runTask(core.getPlugin(), new Runnable() {
                             @Override
