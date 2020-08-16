@@ -5,8 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class TFM {
-
+public class TFM
+{
     private TotalFreedomMod totalFreedomMod = null;
 
     public TotalFreedomMod getTFM()
@@ -26,9 +26,8 @@ public class TFM {
         return null;
     }
 
-    public boolean isAdmin(Player player)
+    public boolean isStaff(Player player)
     {
-        return getTFM().al.isAdmin(player);
+        return getTFM().sl.isStaff(player);
     }
-
 }
