@@ -26,8 +26,8 @@ public class TFM
         return null;
     }
 
-    public boolean isStaff(Player player)
+    public boolean isAdmin(Player player)
     {
-        return getTFM().sl.isStaff(player);
+        return getTFM().al.isAdmin(player);
     }
 }
