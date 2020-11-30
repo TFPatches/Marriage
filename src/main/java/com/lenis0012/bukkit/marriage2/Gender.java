@@ -14,7 +14,7 @@ public enum Gender {
     /**
      * Not set
      */
-    UNKNOWN;
+    NONE;
 
     /**
      * Get chat prefix for gender.
