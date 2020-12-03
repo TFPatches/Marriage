@@ -4,7 +4,7 @@ import com.lenis0012.bukkit.marriage2.config.Settings;
 
 public enum Gender {
     /**
-     * Opposite of femaile
+     * Opposite of female
      */
     MALE,
     /**
@@ -14,7 +14,7 @@ public enum Gender {
     /**
      * Not set
      */
-    UNKNOWN;
+    NONE;
 
     /**
      * Get chat prefix for gender.

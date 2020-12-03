@@ -49,7 +49,7 @@ public class ListQuery {
                 to.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + "Married players:");
                 to.sendMessage(ChatColor.GOLD + "Page " + (page + 1) + "/" + pages);
                 if(Settings.GENDER_IN_LIST.value()) {
-                    to.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bmale &f- &dfemale &f- &7unknown"));
+                    to.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bmale &f- &dfemale &f- &7none"));
                 }
                 for(MData data : marriages) {
                     to.sendMessage(names.get(data.getPlayer1Id()) + ChatColor.WHITE + " + " + names.get(data.getPllayer2Id()));
@@ -79,7 +79,7 @@ public class ListQuery {
         ChatColor color = ChatColor.GREEN;
         if(Settings.GENDER_IN_LIST.value()) {
             MarriagePlayer mp = db.loadPlayer(userId);
-            Gender gender = mp == null ? Gender.UNKNOWN : mp.getGender();
+            Gender gender = mp == null ? Gender.NONE : mp.getGender();
             switch(gender) {
                 case MALE:
                     color = ChatColor.AQUA;
@@ -87,7 +87,7 @@ public class ListQuery {
                 case FEMALE:
                     color = ChatColor.LIGHT_PURPLE;
                     break;
-                case UNKNOWN:
+                case NONE:
                     color = ChatColor.GRAY;
                     break;
             }
