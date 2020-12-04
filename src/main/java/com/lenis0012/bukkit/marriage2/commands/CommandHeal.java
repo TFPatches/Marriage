@@ -21,27 +21,27 @@ public class CommandHeal extends Command {
         MData marriage = mPlayer.getMarriage();
 
         // Check if marries
-        if(marriage == null) {
+        if (marriage == null) {
             reply(Message.NOT_MARRIED);
             return;
         }
 
         // Verify partner online
         Player partner = Bukkit.getPlayer(marriage.getOtherPlayer(player.getUniqueId()));
-        if(partner == null) {
+        if (partner == null) {
             reply(Message.PARTNER_NOT_ONLINE);
             return;
         }
 
         // Check health
-        if(player.getHealth() < 1.0) {
+        if (player.getHealth() < 1.0) {
             reply(Message.NO_HEALTH);
             return;
         }
 
         // Check health of partner
         double give = Math.min(partner.getMaxHealth() - partner.getHealth(), player.getHealth() - 0.5);
-        if(give == 0.0) {
+        if (give == 0.0) {
             reply(Message.NO_HEALTH);
             return;
         }

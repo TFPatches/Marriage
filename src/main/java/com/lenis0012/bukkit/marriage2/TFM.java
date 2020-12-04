@@ -5,20 +5,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class TFM
-{
+public class TFM {
     private TotalFreedomMod totalFreedomMod = null;
 
-    public TotalFreedomMod getTFM()
-    {
-        if (totalFreedomMod != null)
-        {
+    public TotalFreedomMod getTFM() {
+        if (totalFreedomMod != null) {
             return totalFreedomMod;
         }
         Plugin plugin = Bukkit.getPluginManager().getPlugin("TotalFreedomMod");
-        if (plugin != null && plugin.isEnabled())
-        {
-            TotalFreedomMod tfm = (TotalFreedomMod)plugin;
+        if (plugin != null && plugin.isEnabled()) {
+            TotalFreedomMod tfm = (TotalFreedomMod) plugin;
             totalFreedomMod = tfm;
             return totalFreedomMod;
         }
@@ -26,8 +22,7 @@ public class TFM
         return null;
     }
 
-    public boolean isStaff(Player player)
-    {
-        return getTFM().sl.isStaff(player);
+    public boolean isAdmin(Player player) {
+        return getTFM().al.isAdmin(player);
     }
 }

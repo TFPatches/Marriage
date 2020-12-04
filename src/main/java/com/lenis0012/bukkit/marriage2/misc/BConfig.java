@@ -22,11 +22,10 @@ public class BConfig extends YamlConfiguration {
         this.core = core;
         this.file = file;
         file.getParentFile().mkdirs();
-        if(!file.exists()) {
+        if (!file.exists()) {
             try {
                 file.createNewFile();
-            } catch(IOException e) {
-                ;
+            } catch (IOException e) {
             }
         }
 
@@ -36,7 +35,7 @@ public class BConfig extends YamlConfiguration {
     public void reload() {
         try {
             load(file);
-        } catch(Exception e) {
+        } catch (Exception e) {
             core.getLogger().log(Level.WARNING, "Failed to reload configuration file", e);
         }
     }
@@ -44,7 +43,7 @@ public class BConfig extends YamlConfiguration {
     public void save() {
         try {
             save(file);
-        } catch(Exception e) {
+        } catch (Exception e) {
             core.getLogger().log(Level.WARNING, "Failed to save configuration file", e);
         }
     }
@@ -56,7 +55,7 @@ public class BConfig extends YamlConfiguration {
 
     @SuppressWarnings("unchecked")
     public <T> T getOrSet(String key, T def) {
-        if(contains(key)) {
+        if (contains(key)) {
             return (T) get(key);
         } else {
             set(key, def);
@@ -74,22 +73,22 @@ public class BConfig extends YamlConfiguration {
             output = new FileOutputStream(file);
             byte[] buffer = new byte[1024];
             int length;
-            while((length = input.read(buffer, 0, buffer.length)) != -1) {
+            while ((length = input.read(buffer, 0, buffer.length)) != -1) {
                 output.write(buffer, 0, length);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             MarriagePlugin.getCore().getLogger().log(Level.WARNING, "Failed to copy file", e);
         } finally {
-            if(input != null) {
+            if (input != null) {
                 try {
                     input.close();
-                } catch(IOException e1) {
+                } catch (IOException e1) {
                 }
             }
-            if(output != null) {
+            if (output != null) {
                 try {
                     output.close();
-                } catch(IOException e1) {
+                } catch (IOException e1) {
                 }
             }
         }

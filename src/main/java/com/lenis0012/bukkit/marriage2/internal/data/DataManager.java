@@ -41,7 +41,7 @@ public class DataManager {
     public DataManager(MarriageCore core) {
         this.core = core;
         File configFile = new File(core.getPlugin().getDataFolder(), "database-settings.yml");
-        if(!configFile.exists()) {
+        if (!configFile.exists()) {
             BConfig.copyFile(core.getPlugin().getResource("database-settings.yml"), configFile);
         }
 
@@ -62,7 +62,7 @@ public class DataManager {
 
     private void loadWithDriver(Driver driver, FileConfiguration config) {
         String url, user = "", password = "";
-        if(driver == Driver.MYSQL) {
+        if (driver == Driver.MYSQL) {
             user = config.getString("MySQL.user", "root");
             password = config.getString("MySQL.password", "");
             String host = config.getString("MySQL.host", "localhost:3306");
@@ -76,7 +76,7 @@ public class DataManager {
         }
 
         // Purge system
-        if(config.getBoolean("auto-purge.enabled")) {
+        if (config.getBoolean("auto-purge.enabled")) {
             final long delayTime = 20L * 60 * 60; // Every hour
             final int days = config.getInt("auto-purge.purge-after-days", 45);
             final boolean purgeMarried = config.getBoolean("auto-purge.purge-married-players", false);
@@ -87,7 +87,7 @@ public class DataManager {
                     long startTime = System.currentTimeMillis();
                     int purged = purge(daysInMillis, purgeMarried);
                     long duration = System.currentTimeMillis() - startTime;
-                    if(purged > 0) {
+                    if (purged > 0) {
                         core.getLogger().log(Level.INFO, "Purged " + purged + " player entries in " + duration + "ms");
                     }
                 }
@@ -96,7 +96,7 @@ public class DataManager {
 
         try {
             driver.initiate();
-        } catch(Exception e) {
+        } catch (Exception e) {
             core.getLogger().log(Level.SEVERE, "Failed to initiate database driver", e);
         }
 
@@ -109,18 +109,18 @@ public class DataManager {
             Statement statement = connection.createStatement();
             driver.runSetup(statement, prefix);
             ResultSet result = statement.executeQuery(String.format("SELECT * FROM %sversion;", prefix));
-            if(result.next()) {
+            if (result.next()) {
                 int dbVersion = result.getInt("version_id");
-                if(dbVersion >= 2) {
+                if (dbVersion >= 2) {
                     // Fix for people that first installed on v2
                     DatabaseMetaData metadata = connection.getMetaData();
                     ResultSet res = metadata.getColumns(null, null, prefix + "players", "last_name");
-                    if(!res.next()) {
+                    if (!res.next()) {
                         statement.execute("ALTER TABLE " + prefix + "players ADD last_name VARCHAR(16);");
                     }
                 }
 
-                if(dbVersion < upgrade.getVersionId()) {
+                if (dbVersion < upgrade.getVersionId()) {
                     upgrade.run(statement, dbVersion, prefix);
                     PreparedStatement ps = connection.prepareStatement("UPDATE " + prefix + "version SET version_id=? WHERE version_id=?;");
                     ps.setInt(1, upgrade.getVersionId());
@@ -130,7 +130,7 @@ public class DataManager {
             } else {
                 statement.executeUpdate(String.format("INSERT INTO %sversion (version_id) VALUES(%s);", prefix, upgrade.getVersionId()));
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to initiate database", e);
         } finally {
             supplier.finish();
@@ -146,20 +146,20 @@ public class DataManager {
             ResultSet result = ps.executeQuery();
             Set<String> removeList = Sets.newHashSet();
             Set<Integer> removeList2 = Sets.newHashSet();
-            while(result.next()) {
+            while (result.next()) {
                 removeList.add(result.getString("unique_user_id"));
             }
 
             ps.close(); // Release statement
             supplier.finish(); // Let queued actions run first
-            if(!purgeMarried) {
+            if (!purgeMarried) {
                 connection = supplier.access();
                 ps = connection.prepareStatement("SELECT * FROM " + prefix + "marriages;");
                 result = ps.executeQuery();
-                while(result.next()) {
+                while (result.next()) {
                     boolean remove = removeList.remove(result.getString("player1"));
                     remove = remove || removeList.remove(result.getString("player2"));
-                    if(remove) {
+                    if (remove) {
                         removeList2.add(result.getInt("id"));
                     }
                 }
@@ -170,7 +170,7 @@ public class DataManager {
             // Delete player entries
             connection = supplier.access();
             ps = connection.prepareStatement("DELETE FROM " + prefix + "players WHERE unique_user_id=?;");
-            for(String uuid : removeList) {
+            for (String uuid : removeList) {
                 ps.setString(1, uuid);
                 ps.addBatch();
             }
@@ -181,14 +181,14 @@ public class DataManager {
             // Remove marriage entries
             connection = supplier.access();
             ps = connection.prepareStatement("DELETE FROM " + prefix + "marriages WHERE id=?;");
-            for(int id : removeList2) {
+            for (int id : removeList2) {
                 ps.setInt(1, id);
                 ps.addBatch();
             }
             ps.executeBatch();
             ps.close();
             return removeList.size();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to purge user data", e);
             return 0;
         } finally {
@@ -206,7 +206,7 @@ public class DataManager {
             player = new MarriagePlayer(uuid, ps.executeQuery());
             ps.close(); // Release statement
             loadMarriages(connection, player, false);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to load player data", e);
         } finally {
             supplier.finish();
@@ -216,14 +216,14 @@ public class DataManager {
     }
 
     public void savePlayer(MarriagePlayer player) {
-        if(player == null || player.getUniqueId() == null) return;
+        if (player == null || player.getUniqueId() == null) return;
         Connection connection = supplier.access();
         try {
             PreparedStatement ps = connection.prepareStatement(String.format(
                     "SELECT * FROM %splayers WHERE unique_user_id=?;", prefix));
             ps.setString(1, player.getUniqueId().toString());
             ResultSet result = ps.executeQuery();
-            if(result.next()) {
+            if (result.next()) {
                 // Already in database (update)
                 PreparedStatement ps2 = connection.prepareStatement(String.format(
                         "UPDATE %splayers SET last_name=?,gender=?,priest=?,lastlogin=? WHERE unique_user_id=?;", prefix));
@@ -243,7 +243,7 @@ public class DataManager {
                 ps2.close();
             }
             ps.close();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to save player data", e);
         } finally {
             supplier.finish();
@@ -257,7 +257,7 @@ public class DataManager {
             ps.setString(1, mdata.getPlayer1Id().toString());
             ps.setString(2, mdata.getPllayer2Id().toString());
             ResultSet result = ps.executeQuery();
-            if(result.next()) {
+            if (result.next()) {
                 // Update existing entry
                 PreparedStatement ps2 = connection.prepareStatement(String.format(
                         "UPDATE %smarriages SET player1=?,player2=?,home_world=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
@@ -272,7 +272,7 @@ public class DataManager {
                 ps2.executeUpdate();
                 ps2.close();
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to save marriage data", e);
         } finally {
             supplier.finish();
@@ -284,14 +284,14 @@ public class DataManager {
                 "SELECT * FROM %smarriages WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
         ps.setString(1, player.getUniqueId().toString());
         ResultSet result = ps.executeQuery();
-        while(result.next()) {
+        while (result.next()) {
             UUID partnerId = UUID.fromString(result.getString(alt ? "player1" : "player2"));
             Player partner = Bukkit.getPlayer(partnerId);
             MarriageData data;
-            if(partner != null && partner.isOnline() && core.isMPlayerSet(partner.getUniqueId())) {
+            if (partner != null && partner.isOnline() && core.isMPlayerSet(partner.getUniqueId())) {
                 // Copy marriage data from partner to ensure a match.
                 data = (MarriageData) core.getMPlayer(partner).getMarriage();
-            } else if((data = marriageDataCache.getIfPresent(player.getUniqueId())) == null) {
+            } else if ((data = marriageDataCache.getIfPresent(player.getUniqueId())) == null) {
                 data = new MarriageData(this, result);
                 marriageDataCache.put(data.getPlayer1Id(), data);
                 marriageDataCache.put(data.getPllayer2Id(), data);
@@ -301,7 +301,7 @@ public class DataManager {
         }
         ps.close();
 
-        if(!alt) {
+        if (!alt) {
             loadMarriages(connection, player, true);
         }
     }
@@ -314,7 +314,7 @@ public class DataManager {
             ps.setString(2, player2.toString());
             ps.executeUpdate();
             ps.close();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to load player data", e);
         } finally {
             supplier.finish();
@@ -337,13 +337,13 @@ public class DataManager {
             result = ps.executeQuery();
 
             List<MData> list = Lists.newArrayList();
-            while(result.next()) {
+            while (result.next()) {
                 list.add(new MarriageData(this, result));
             }
             ps.close();
 
             return new ListQuery(this, pages, page, list);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to load marriage list", e);
             return new ListQuery(this, 0, 0, new ArrayList<MData>());
         } finally {
@@ -358,10 +358,10 @@ public class DataManager {
             core.getLogger().log(Level.INFO, "Migrating player data... (may take A WHILE)");
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + prefix + "players;");
             ResultSet result = ps.executeQuery();
-            while(result.next()) {
+            while (result.next()) {
                 UUID uuid = UUID.fromString(result.getString("unique_user_id"));
                 MarriagePlayer player = new MarriagePlayer(uuid, result);
-                if(!player.isMarried() && !migrateUnmarriedPlayers) continue;
+                if (!player.isMarried() && !migrateUnmarriedPlayers) continue;
                 db.savePlayer(player);
             }
             ps.close();
@@ -369,7 +369,7 @@ public class DataManager {
             core.getLogger().log(Level.INFO, "Migrating marriage data...");
             ps = connection.prepareStatement("SELECT * FROM " + prefix + "marriages;");
             result = ps.executeQuery();
-            while(result.next()) {
+            while (result.next()) {
                 MarriageData data = new MarriageData(this, result);
                 db.saveMarriage(data);
             }
@@ -377,7 +377,7 @@ public class DataManager {
 
             core.getLogger().log(Level.INFO, "Migration complete!");
             return true;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to load migrate database", e);
         } finally {
             supplier.finish();
@@ -403,7 +403,7 @@ public class DataManager {
         public Connection get() {
             try {
                 return DriverManager.getConnection(url, user, password);
-            } catch(SQLException e) {
+            } catch (SQLException e) {
                 return null;
             }
         }
@@ -415,7 +415,7 @@ public class DataManager {
             // Try to close connection
             try {
                 connection.close();
-            } catch(SQLException e) {
+            } catch (SQLException e) {
             }
         }
     }

@@ -100,7 +100,7 @@ public enum Message {
 
     public static void reloadAll(Marriage marriage) {
         BConfig config = marriage.getBukkitConfig("messages.yml");
-        for(Message message : values()) {
+        for (Message message : values()) {
             message.reload(config);
         }
 

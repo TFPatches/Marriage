@@ -31,7 +31,7 @@ public class MarriagePlayer implements MPlayer {
 
     public MarriagePlayer(UUID uuid, ResultSet data) throws SQLException {
         this.uuid = uuid;
-        if(data.next()) {
+        if (data.next()) {
             this.lastName = data.getString("last_name");
             this.gender = Gender.valueOf(data.getString("gender"));
             this.priest = data.getBoolean("priest");
@@ -109,7 +109,7 @@ public class MarriagePlayer implements MPlayer {
     @Override
     public MPlayer getPartner() {
         Marriage core = MarriagePlugin.getCore();
-        if(marriage != null) {
+        if (marriage != null) {
             UUID id = uuid.equals(marriage.getPlayer1Id()) ? marriage.getPllayer2Id() : marriage.getPlayer1Id();
             return core.getMPlayer(id);
         }
@@ -119,13 +119,13 @@ public class MarriagePlayer implements MPlayer {
 
     @Override
     public void divorce() {
-        if(marriage == null) {
+        if (marriage == null) {
             return;
         }
 
         PlayerDivorceEvent event = new PlayerDivorceEvent(this, marriage);
         Bukkit.getPluginManager().callEvent(event);
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             return;
         }
 

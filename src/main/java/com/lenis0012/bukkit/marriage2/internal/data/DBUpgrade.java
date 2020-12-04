@@ -11,7 +11,7 @@ public class DBUpgrade {
     }
 
     public void run(Statement statement, int currentVersion, String prefix) throws SQLException {
-        switch(currentVersion) {
+        switch (currentVersion) {
             case 1:
                 statement.execute("ALTER TABLE " + prefix + "players ADD last_name VARCHAR(16);");
                 break;

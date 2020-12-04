@@ -25,14 +25,14 @@ public class MarriageCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
         String subCommand = args.length > 0 ? args[0] : "help";
         Command command = commands.get(subCommand.toLowerCase());
-        if(command == null) {
+        if (command == null) {
             command = commands.get("marry");
         }
 
         // Assuming that the command is not null now, if it is, then that is a mistake on my side.
-        if(args.length > command.getMinArgs()) {
-            if(command.getPermission() == null || command.getPermission().has(sender)) {
-                if(command.isAllowConsole() || sender instanceof Player) {
+        if (args.length > command.getMinArgs()) {
+            if (command.getPermission() == null || command.getPermission().has(sender)) {
+                if (command.isAllowConsole() || sender instanceof Player) {
                     command.prepare(sender, args);
                     command.execute();
                 } else {
@@ -51,15 +51,15 @@ public class MarriageCommandExecutor implements CommandExecutor {
     public void register(Class<? extends Command> commandClass) {
         try {
             Command command = commandClass.getConstructor(Marriage.class).newInstance(core);
-            if(Settings.DISABLED_COMMANDS.value().contains(command.getAliases()[0])) {
+            if (Settings.DISABLED_COMMANDS.value().contains(command.getAliases()[0])) {
                 // Command was disabled in config...
                 return;
             }
 
-            for(String alias : command.getAliases()) {
+            for (String alias : command.getAliases()) {
                 commands.put(alias.toLowerCase(), command);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             core.getLogger().log(Level.SEVERE, "Failed to register sub command", e);
         }
     }

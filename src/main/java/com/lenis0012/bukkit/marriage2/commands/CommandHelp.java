@@ -26,18 +26,18 @@ public class CommandHelp extends Command {
 //		reply("Author: &alenis0012");
         reply("Version: &a" + marriage.getPlugin().getDescription().getVersion());
         reply("&2&m---------&2< &a&lMarriage Command Help &2>&2&m---------"); // Play around with the amount of dashes later
-        for(Command command : commandExecutor.getSubCommands()) {
-            if(command.isHidden()) {
+        for (Command command : commandExecutor.getSubCommands()) {
+            if (command.isHidden()) {
                 continue;
             }
 
             String alias = command instanceof CommandMarry ? "" : command.getAliases()[0] + " ";
             String text = "&a/marry " + alias + command.getUsage() + " &f- &7" + command.getDescription();
-            if(command.getExecutionFee() == 0.0 || !Bukkit.getVersion().contains("Spigot") || !marriage.dependencies().isEconomyEnabled() || player == null) {
+            if (command.getExecutionFee() == 0.0 || !Bukkit.getVersion().contains("Spigot") || !marriage.dependencies().isEconomyEnabled() || player == null) {
                 reply(text);
                 continue;
             }
-            if(player.spigot() == null) {
+            if (player.spigot() == null) {
                 reply(text);
                 continue;
             }
@@ -54,7 +54,7 @@ public class CommandHelp extends Command {
         }
 
         String status = Message.SINGLE.toString();
-        if(player != null && player.hasMetadata("marriedTo")) {
+        if (player != null && player.hasMetadata("marriedTo")) {
             String partner = player.getMetadata("marriedTo").get(0).asString();
             status = String.format(Message.MARRIED_TO.toString(), partner);
         }

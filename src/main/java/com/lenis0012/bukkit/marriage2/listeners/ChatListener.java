@@ -23,9 +23,9 @@ public class ChatListener implements Listener {
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
         MPlayer mp = core.getMPlayer(player);
-        if(mp.isInChat()) {
+        if (mp.isInChat()) {
             // Private chat
-            if(!mp.isMarried() || !isOnline(mp.getPartner())) {
+            if (!mp.isMarried() || !isOnline(mp.getPartner())) {
                 mp.setInChat(false);
                 return;
             }
@@ -46,11 +46,11 @@ public class ChatListener implements Listener {
 
             // Admin chat spy
             String adminMessage = null; // No need to format message if we're not going to send it.
-            for(Player admin : Bukkit.getOnlinePlayers()) {
-                if(admin.equals(player) || admin.equals(partner)) continue;
+            for (Player admin : Bukkit.getOnlinePlayers()) {
+                if (admin.equals(player) || admin.equals(partner)) continue;
                 final MPlayer mAdmin = core.getMPlayer(admin);
-                if(!mAdmin.isChatSpy()) continue;
-                if(adminMessage == null) {
+                if (!mAdmin.isChatSpy()) continue;
+                if (adminMessage == null) {
                     // Format message
                     adminMessage = Settings.CHATSPY_FORMAT.value()
                             .replace("{sender}", player.getName())
@@ -72,19 +72,20 @@ public class ChatListener implements Listener {
         final Player player = event.getPlayer();
         final MPlayer mplayer = core.getMPlayer(player);
 
-        if(Settings.FORCE_FORMAT.value()) {
+        if (Settings.FORCE_FORMAT.value()) {
             format = "{marriage_status}" + format; // Enforce marriage format
-        } if(Settings.FORCE_GENDER_FORMAT.value()) {
+        }
+        if (Settings.FORCE_GENDER_FORMAT.value()) {
             format = "{marriage_gender}" + format;
         }
 
         // Marriage status
-        if(format.contains("{marriage_status}")) {
+        if (format.contains("{marriage_status}")) {
             String status = Settings.CHAT_FORMAT_UNMARRIED.value();
-            if(mplayer.isMarried()) {
+            if (mplayer.isMarried()) {
                 String partner =
                         player.hasMetadata("marriedTo") && player.getMetadata("marriedTo").size() > 0
-                        ? player.getMetadata("marriedTo").get(0).asString() : "";
+                                ? player.getMetadata("marriedTo").get(0).asString() : "";
 
                 status = Settings.CHAT_FORMAT.value()
                         .replace("{heart}", "\u2764")
@@ -93,7 +94,7 @@ public class ChatListener implements Listener {
                 status = formatIcons(status);
             }
 
-            if(!status.isEmpty()) {
+            if (!status.isEmpty()) {
                 status = ChatColor.translateAlternateColorCodes('&', status);
             }
 
@@ -101,7 +102,7 @@ public class ChatListener implements Listener {
         }
 
         // Gender format
-        if(format.contains("{marriage_gender}")) {
+        if (format.contains("{marriage_gender}")) {
             String gender = mplayer.getGender().getChatPrefix();
             gender = formatIcons(gender);
             gender = ChatColor.translateAlternateColorCodes('&', gender);
@@ -121,7 +122,7 @@ public class ChatListener implements Listener {
     }
 
     private boolean isOnline(MPlayer mp) {
-        if(mp == null) return false;
+        if (mp == null) return false;
         Player player = Bukkit.getPlayer(mp.getUniqueId());
         return player != null && player.isOnline();
     }

@@ -20,24 +20,24 @@ public class CommandGift extends Command {
     public void execute() {
         MPlayer mPlayer = marriage.getMPlayer(player);
         MData marriage = mPlayer.getMarriage();
-        if(marriage == null) {
+        if (marriage == null) {
             reply(Message.NOT_MARRIED);
             return;
         }
 
         Player partner = Bukkit.getPlayer(marriage.getOtherPlayer(player.getUniqueId()));
-        if(partner == null) {
+        if (partner == null) {
             reply(Message.PARTNER_NOT_ONLINE);
             return;
         }
 
         ItemStack item = player.getItemInHand();
-        if(item == null || item.getType() == Material.AIR) {
+        if (item == null || item.getType() == Material.AIR) {
             reply(Message.NO_ITEM);
             return;
         }
-        
-        if(partner.getInventory().firstEmpty() == -1) {
+
+        if (partner.getInventory().firstEmpty() == -1) {
             reply(Message.PARTNER_INVENTORY_FULL);
             return;
         }

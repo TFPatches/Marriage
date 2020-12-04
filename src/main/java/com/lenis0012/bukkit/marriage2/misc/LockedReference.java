@@ -27,9 +27,9 @@ public class LockedReference {
         lock.lock();
 
         // Check if object not defined or expired.
-        if(timeClaimed + expiryTime < System.currentTimeMillis()) {
+        if (timeClaimed + expiryTime < System.currentTimeMillis()) {
             // Invalidate old object
-            if(object != null && invalidator != null) {
+            if (object != null && invalidator != null) {
                 invalidator.accept(object);
             }
 

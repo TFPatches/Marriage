@@ -26,15 +26,15 @@ public class V5PlotSquaredListener implements Listener {
         PlotPlayer plotPlayer = plotSquared.wrapPlayer(player);
         PlotPlayer plotPartner = plotSquared.wrapPlayer(partner);
 
-        for(Plot plot : plotSquared.getPlayerPlots(plotPlayer)) {
-            if(plot.getTrusted().contains(partner)) {
+        for (Plot plot : plotSquared.getPlayerPlots(plotPlayer)) {
+            if (plot.getTrusted().contains(partner)) {
                 continue;
             }
             plot.addTrusted(partner);
         }
 
-        for(Plot plot : plotSquared.getPlayerPlots(plotPartner)) {
-            if(plot.getTrusted().contains(player)) {
+        for (Plot plot : plotSquared.getPlayerPlots(plotPartner)) {
+            if (plot.getTrusted().contains(player)) {
                 continue;
             }
             plot.addTrusted(player);
@@ -49,15 +49,15 @@ public class V5PlotSquaredListener implements Listener {
         PlotPlayer plotPlayer = plotSquared.wrapPlayer(player);
         PlotPlayer plotPartner = plotSquared.wrapPlayer(partner);
 
-        for(Plot plot : plotSquared.getPlayerPlots(plotPlayer)) {
-            if(!plot.getTrusted().contains(partner)) {
+        for (Plot plot : plotSquared.getPlayerPlots(plotPlayer)) {
+            if (!plot.getTrusted().contains(partner)) {
                 continue;
             }
             plot.removeTrusted(partner);
         }
 
-        for(Plot plot : plotSquared.getPlayerPlots(plotPartner)) {
-            if(!plot.getTrusted().contains(player)) {
+        for (Plot plot : plotSquared.getPlayerPlots(plotPartner)) {
+            if (!plot.getTrusted().contains(player)) {
                 continue;
             }
             plot.removeTrusted(player);

@@ -25,21 +25,21 @@ public class MarriagePlugin extends PluginHolder {
         core = new MarriageCore(this);
 
         //Scan methods
-        for(int i = 0; i < methods.length; i++) {
+        for (int i = 0; i < methods.length; i++) {
             methods[i] = Lists.newArrayList();
         }
         scanMethods(core.getClass());
     }
 
     private void scanMethods(Class<?> clazz) {
-        if(clazz == null) {
+        if (clazz == null) {
             return;
         }
 
         // Loop through all methods in class
-        for(Method method : clazz.getMethods()) {
+        for (Method method : clazz.getMethods()) {
             Register register = method.getAnnotation(Register.class);
-            if(register != null) {
+            if (register != null) {
                 methods[register.type().ordinal()].add(method);
             }
         }
@@ -69,24 +69,24 @@ public class MarriagePlugin extends PluginHolder {
 
     private void executeMethods(Register.Type type) {
         List<Method> list = Lists.newArrayList(methods[type.ordinal()]);
-        while(!list.isEmpty()) {
+        while (!list.isEmpty()) {
             Method method = null;
             int lowestPriority = Integer.MAX_VALUE;
-            for(Method m : list) {
+            for (Method m : list) {
                 Register register = m.getAnnotation(Register.class);
-                if(register.priority() < lowestPriority) {
+                if (register.priority() < lowestPriority) {
                     method = m;
                     lowestPriority = register.priority();
                 }
             }
 
-            if(method != null) {
+            if (method != null) {
                 list.remove(method);
                 Register register = method.getAnnotation(Register.class);
                 getLogger().log(Level.INFO, "Loading " + register.name() + "...");
                 try {
                     method.invoke(core);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     getLogger().log(Level.SEVERE, "Failed to load " + register.name(), e);
                 }
             } else {

@@ -19,7 +19,7 @@ public class CommandList extends Command {
     public void execute() {
         reply(Message.FETCHING_LIST);
         final int page = getArgLength() > 0 ? getArgAsInt(0) : 1;
-        if(page < 1) {
+        if (page < 1) {
             reply(Message.NEGATIVE_NUMBER);
         }
 

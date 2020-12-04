@@ -28,21 +28,22 @@ public class PlayerListener implements Listener {
         final Entity e0 = event.getEntity();
         final Entity e1 = event.getDamager();
         // Verify damaged entity is player
-        if(!(e0 instanceof Player)) {
+        if (!(e0 instanceof Player)) {
             return;
-        } if(!(e1 instanceof Player) && !(e1 instanceof Projectile)) {
+        }
+        if (!(e1 instanceof Player) && !(e1 instanceof Projectile)) {
             return;
         }
 
         // Verify damager is player
         final Player player = (Player) e0;
         final Player damager;
-        if(e1 instanceof Player) {
+        if (e1 instanceof Player) {
             damager = (Player) e1;
         } else {
             Projectile projectile = (Projectile) e1;
             final ProjectileSource e3 = projectile.getShooter();
-            if(e3 == null || !(e3 instanceof Player)) {
+            if (e3 == null || !(e3 instanceof Player)) {
                 return;
             }
             damager = (Player) e3;
@@ -50,12 +51,12 @@ public class PlayerListener implements Listener {
 
         // Verify marriage
         MPlayer mplayer = marriage.getMPlayer(player);
-        if(!mplayer.isMarried() || mplayer.getMarriage().getOtherPlayer(player.getUniqueId()) != damager.getUniqueId()) {
+        if (!mplayer.isMarried() || mplayer.getMarriage().getOtherPlayer(player.getUniqueId()) != damager.getUniqueId()) {
             return;
         }
 
         // Verify pvp setting
-        if(mplayer.getMarriage().isPVPEnabled()) {
+        if (mplayer.getMarriage().isPVPEnabled()) {
             return;
         }
 
@@ -64,38 +65,38 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerGainExp(PlayerExpChangeEvent event) {
-        if(!Settings.EXP_BOOST_ENABLED.value()) {
+        if (!Settings.EXP_BOOST_ENABLED.value()) {
             return;
         }
 
         final int gained = event.getAmount();
-        if(gained <= 0) {
+        if (gained <= 0) {
             return;
         }
 
         final Player player = event.getPlayer();
         final MPlayer mplayer = marriage.getMPlayer(player);
-        if(!mplayer.isMarried()) {
+        if (!mplayer.isMarried()) {
             return;
         }
 
         MPlayer mpartner = mplayer.getPartner();
         Player partner = Bukkit.getPlayer(mpartner.getUniqueId());
-        if(partner == null || !partner.isOnline()) {
+        if (partner == null || !partner.isOnline()) {
             return;
         }
 
-        if(!partner.getWorld().equals(player.getWorld())) {
+        if (!partner.getWorld().equals(player.getWorld())) {
             return;
         }
 
-        if(partner.getLocation().distanceSquared(partner.getLocation()) > Settings.EXP_BOOST_DISTANCE.value() * Settings.EXP_BOOST_DISTANCE.value()) {
+        if (partner.getLocation().distanceSquared(partner.getLocation()) > Settings.EXP_BOOST_DISTANCE.value() * Settings.EXP_BOOST_DISTANCE.value()) {
             return;
         }
 
         event.setAmount((int) Math.round(gained * Settings.EXP_BOOST_MULTIPLIER.value()));
         final int bonus = event.getAmount() - gained;
-        if(bonus > 0 && Settings.EXP_BOOST_ANNOUNCE.value()) {
+        if (bonus > 0 && Settings.EXP_BOOST_ANNOUNCE.value()) {
             Message.BONUS_EXP.send(player, bonus);
         }
     }

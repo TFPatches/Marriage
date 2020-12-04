@@ -45,7 +45,7 @@ public enum Permissions {
 
     public static boolean setupPermissions() {
         RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServicesManager().getRegistration(Permission.class);
-        if(permissionProvider != null) {
+        if (permissionProvider != null) {
             permissionService = permissionProvider.getProvider();
             vaultEnabled = true;
             MarriagePlugin.getCore().getLogger().log(Level.INFO, "Hooked with " + permissionService.getName() + " using Vault!");
@@ -72,7 +72,7 @@ public enum Permissions {
      * @return True if has permission, False otherwise
      */
     public boolean has(CommandSender sender) {
-        if(parent >= 0 && values()[parent].has(sender)) {
+        if (parent >= 0 && values()[parent].has(sender)) {
             return true;
         }
 
@@ -86,8 +86,8 @@ public enum Permissions {
      * @return Permission
      */
     public static Permissions getByNode(String node) {
-        for(Permissions permission : values()) {
-            if(permission.node.equalsIgnoreCase(node)) {
+        for (Permissions permission : values()) {
+            if (permission.node.equalsIgnoreCase(node)) {
                 return permission;
             }
         }

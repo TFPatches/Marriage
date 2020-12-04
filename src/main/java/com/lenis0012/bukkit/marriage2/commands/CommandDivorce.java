@@ -19,18 +19,18 @@ public class CommandDivorce extends Command {
     public void execute() {
         MPlayer mPlayer = marriage.getMPlayer(player);
         MPlayer partner = mPlayer.getPartner();
-        if(partner == null) {
+        if (partner == null) {
             reply(Message.NOT_MARRIED);
             return;
         }
 
-        if(!payFee()) return;
+        if (!payFee()) return;
         mPlayer.divorce();
 
         // Clear metadata
         player.removeMetadata("marriedTo", marriage.getPlugin());
         Player target = Bukkit.getPlayer(partner.getUniqueId());
-        if(target != null) {
+        if (target != null) {
             target.removeMetadata("marriedTo", marriage.getPlugin());
         }
 

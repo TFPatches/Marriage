@@ -24,15 +24,15 @@ public class LegacyPlotSquaredListener implements Listener {
         final UUID player = event.getRequesing().getUniqueId();
         final UUID partner = event.getRequested().getUniqueId();
 
-        for(Plot plot : plotSquared.getPlots(player)) {
-            if(plot.getTrusted().contains(partner)) {
+        for (Plot plot : plotSquared.getPlots(player)) {
+            if (plot.getTrusted().contains(partner)) {
                 continue;
             }
             plot.addTrusted(partner);
         }
 
-        for(Plot plot : plotSquared.getPlots(partner)) {
-            if(plot.getTrusted().contains(player)) {
+        for (Plot plot : plotSquared.getPlots(partner)) {
+            if (plot.getTrusted().contains(player)) {
                 continue;
             }
             plot.addTrusted(player);
@@ -45,15 +45,15 @@ public class LegacyPlotSquaredListener implements Listener {
         final UUID player = marriage.getPlayer1Id();
         final UUID partner = marriage.getPllayer2Id();
 
-        for(Plot plot : plotSquared.getPlots(player)) {
-            if(!plot.getTrusted().contains(partner)) {
+        for (Plot plot : plotSquared.getPlots(player)) {
+            if (!plot.getTrusted().contains(partner)) {
                 continue;
             }
             plot.removeTrusted(partner);
         }
 
-        for(Plot plot : plotSquared.getPlots(partner)) {
-            if(!plot.getTrusted().contains(player)) {
+        for (Plot plot : plotSquared.getPlots(partner)) {
+            if (!plot.getTrusted().contains(player)) {
                 continue;
             }
             plot.removeTrusted(player);

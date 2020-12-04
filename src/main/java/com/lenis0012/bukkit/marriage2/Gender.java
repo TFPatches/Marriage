@@ -22,7 +22,7 @@ public enum Gender {
      * @return Chat prefix
      */
     public String getChatPrefix() {
-        switch(this) {
+        switch (this) {
             case MALE:
                 return Settings.PREFIX_MALE.value();
             case FEMALE:
