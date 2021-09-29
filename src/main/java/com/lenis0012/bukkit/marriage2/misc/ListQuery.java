@@ -36,7 +36,7 @@ public class ListQuery {
         this.pages = pages;
         this.page = page;
         this.marriages = marriages;
-        for(MData marriage : marriages) {
+        for (MData marriage : marriages) {
             names.put(marriage.getPlayer1Id(), getNameFormat(db, marriage.getPlayer1Id()));
             names.put(marriage.getPllayer2Id(), getNameFormat(db, marriage.getPllayer2Id()));
         }
@@ -48,10 +48,10 @@ public class ListQuery {
             public void run() {
                 to.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + "Married players:");
                 to.sendMessage(ChatColor.GOLD + "Page " + (page + 1) + "/" + pages);
-                if(Settings.GENDER_IN_LIST.value()) {
-                    to.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bmale &f- &dfemale &f- &7unknown"));
+                if (Settings.GENDER_IN_LIST.value()) {
+                    to.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bmale &f- &dfemale &f- &7none"));
                 }
-                for(MData data : marriages) {
+                for (MData data : marriages) {
                     to.sendMessage(names.get(data.getPlayer1Id()) + ChatColor.WHITE + " + " + names.get(data.getPllayer2Id()));
                 }
             }
@@ -72,22 +72,22 @@ public class ListQuery {
 
     public static String getNameFormat(DataManager db, UUID userId) {
         String name = getName(db, userId);
-        if(name == null) {
+        if (name == null) {
             return ChatColor.GREEN + "???";
         }
 
         ChatColor color = ChatColor.GREEN;
-        if(Settings.GENDER_IN_LIST.value()) {
+        if (Settings.GENDER_IN_LIST.value()) {
             MarriagePlayer mp = db.loadPlayer(userId);
-            Gender gender = mp == null ? Gender.UNKNOWN : mp.getGender();
-            switch(gender) {
+            Gender gender = mp == null ? Gender.NONE : mp.getGender();
+            switch (gender) {
                 case MALE:
                     color = ChatColor.AQUA;
                     break;
                 case FEMALE:
                     color = ChatColor.LIGHT_PURPLE;
                     break;
-                case UNKNOWN:
+                case NONE:
                     color = ChatColor.GRAY;
                     break;
             }
@@ -99,13 +99,13 @@ public class ListQuery {
     public static String getName(DataManager db, UUID userId) {
         // local uuid cache
         OfflinePlayer op = Bukkit.getOfflinePlayer(userId);
-        if(op != null && op.getName() != null) {
+        if (op != null && op.getName() != null) {
             return op.getName();
         }
 
         // local database
         MarriagePlayer mp = db.loadPlayer(userId);
-        if(mp.getLastName() != null) {
+        if (mp.getLastName() != null) {
             return mp.getLastName();
         }
 
@@ -121,15 +121,15 @@ public class ListQuery {
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder builder = new StringBuilder();
             String line;
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 builder.append(line);
             }
 
             JsonArray entries = JSON_PARSER.parse(builder.toString()).getAsJsonArray();
-            if(entries.size() == 0) return null; // Fail
+            if (entries.size() == 0) return null; // Fail
             JsonObject lastEntry = entries.get(entries.size() - 1).getAsJsonObject();
             return lastEntry.get("name").getAsString();
-        } catch(Exception e) {
+        } catch (Exception e) {
             return null; // Complete failure
         }
     }

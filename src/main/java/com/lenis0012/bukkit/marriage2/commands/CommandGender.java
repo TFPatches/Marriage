@@ -20,13 +20,13 @@ public class CommandGender extends Command {
         Gender gender;
         try {
             gender = Gender.valueOf(getArg(0).toUpperCase());
-        } catch(Exception e) {
+        } catch (Exception e) {
             reply(Message.INVALID_GENDER);
             return;
         }
 
         MPlayer mPlayer = marriage.getMPlayer(player);
-        if(mPlayer.getGender() != Gender.UNKNOWN && !Settings.ALLOW_GENDER_CHANGE.value()) {
+        if (mPlayer.getGender() != Gender.NONE && !Settings.ALLOW_GENDER_CHANGE.value()) {
             reply(Message.GENDER_ALREADY_CHANGED);
         }
 

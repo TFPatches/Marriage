@@ -29,30 +29,30 @@ public class KissListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEntityEvent event) {
-        if(!Settings.KISSES_ENABLED.value()) return; // Disabled
+        if (!Settings.KISSES_ENABLED.value()) return; // Disabled
 
         final Player player = event.getPlayer();
         Entity e = event.getRightClicked();
-        if(!(e instanceof Player)) {
+        if (!(e instanceof Player)) {
             return;
         }
 
         final Player clicked = (Player) e;
-        if(!player.isSneaking() || !clicked.isSneaking()) {
+        if (!player.isSneaking() || !clicked.isSneaking()) {
             return;
         }
 
         MPlayer mp = core.getMPlayer(player);
-        if(!mp.isMarried()) {
+        if (!mp.isMarried()) {
             return;
         }
 
         MData data = mp.getMarriage();
-        if(!clicked.getUniqueId().toString().equalsIgnoreCase(data.getOtherPlayer(player.getUniqueId()).toString())) {
+        if (!clicked.getUniqueId().toString().equalsIgnoreCase(data.getOtherPlayer(player.getUniqueId()).toString())) {
             return;
         }
 
-        if(!cooldown.performCheck(player.getName()) || !cooldown.performCheck(clicked.getName())) {
+        if (!cooldown.performCheck(player.getName()) || !cooldown.performCheck(clicked.getName())) {
             return;
         }
 

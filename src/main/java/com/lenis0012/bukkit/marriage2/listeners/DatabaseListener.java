@@ -32,7 +32,7 @@ public class DatabaseListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLogin(AsyncPlayerPreLoginEvent event) {
-        if(event.getLoginResult() == Result.ALLOWED) {
+        if (event.getLoginResult() == Result.ALLOWED) {
             MarriagePlayer player = core.getDataManager().loadPlayer(event.getUniqueId());
             player.setLastName(event.getName());
             cache.put(event.getUniqueId(), player);
@@ -44,7 +44,7 @@ public class DatabaseListener implements Listener {
         final Player player = event.getPlayer();
         final UUID userId = player.getUniqueId();
         MarriagePlayer mplayer = cache.getIfPresent(userId);
-        if(mplayer != null) {
+        if (mplayer != null) {
             loadPartnerName(mplayer, player);
             core.setMPlayer(userId, mplayer);
             return;
@@ -63,18 +63,18 @@ public class DatabaseListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         core.unloadPlayer(player.getUniqueId());
-        if(player.hasMetadata("marriedTo")) {
+        if (player.hasMetadata("marriedTo")) {
             player.removeMetadata("marriedTo", core.getPlugin());
         }
     }
 
     private void loadPartnerName(final MPlayer mplayer, final Player player) {
-        if(!mplayer.isMarried()) return;
+        if (!mplayer.isMarried()) return;
         DataManager.getExecutorService().execute(new Runnable() {
             @Override
             public void run() {
                 final String partner = ListQuery.getName(core.getDataManager(), mplayer.getMarriage().getOtherPlayer(player.getUniqueId()));
-                if(partner == null) {
+                if (partner == null) {
                     return;
                 }
 

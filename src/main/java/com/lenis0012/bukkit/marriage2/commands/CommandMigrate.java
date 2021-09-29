@@ -20,9 +20,9 @@ public class CommandMigrate extends Command {
         MarriageCore core = ((MarriageCore) marriage);
         Driver driver;
         final DataManager newDatabase = core.getDataManager();
-        if(getArg(0).equalsIgnoreCase("sqlite") && getArg(1).equalsIgnoreCase("mysql")) {
+        if (getArg(0).equalsIgnoreCase("sqlite") && getArg(1).equalsIgnoreCase("mysql")) {
             driver = Driver.SQLITE;
-        } else if(getArg(0).equalsIgnoreCase("mysql") && getArg(1).equalsIgnoreCase("sqlite")) {
+        } else if (getArg(0).equalsIgnoreCase("mysql") && getArg(1).equalsIgnoreCase("sqlite")) {
             driver = Driver.MYSQL;
         } else {
             reply("&cUsage: /marry migrate <old db> <new db>");

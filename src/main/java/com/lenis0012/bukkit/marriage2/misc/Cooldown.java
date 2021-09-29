@@ -38,7 +38,7 @@ public class Cooldown<T> {
      * @return Whether key is in cooldown or not
      */
     public boolean performCheck(T key) {
-        if(isCached(key)) return false;
+        if (isCached(key)) return false;
         set(key);
         return true;
     }

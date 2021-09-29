@@ -52,8 +52,8 @@ public class MarriageCore extends MarriageBase {
         Message.reloadAll(this);
 
         // Permissions
-        if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            if(!Permissions.setupPermissions()) {
+        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            if (!Permissions.setupPermissions()) {
                 getLogger().log(Level.WARNING, "Vault was found, but no permission provider was detected!");
                 getLogger().log(Level.INFO, "Falling back to bukkit permissions.");
             }
@@ -66,7 +66,7 @@ public class MarriageCore extends MarriageBase {
     @Register(name = "dependencies", type = Type.ENABLE, priority = 1)
     public void loadDependencies() {
         this.dependencies = new Dependencies(this);
-        if(Settings.PLOTSQUARED_AUTO_TRUST.value() && Bukkit.getPluginManager().isPluginEnabled("PlotSquared")) {
+        if (Settings.PLOTSQUARED_AUTO_TRUST.value() && Bukkit.getPluginManager().isPluginEnabled("PlotSquared")) {
             Plugin plotSquared = Bukkit.getPluginManager().getPlugin("PlotSquared");
             getLogger().log(Level.INFO, "Detected PlotSquared v" + plotSquared.getDescription().getVersion() + ". Attempting to hook.");
             hookPlotSquared();
@@ -78,7 +78,7 @@ public class MarriageCore extends MarriageBase {
         this.dataManager = new DataManager(this);
 
         // Load all players
-        for(Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
             MarriagePlayer mp = dataManager.loadPlayer(player.getUniqueId());
             setMPlayer(player.getUniqueId(), mp);
         }
@@ -149,7 +149,7 @@ public class MarriageCore extends MarriageBase {
     @Register(name = "converter", type = Register.Type.ENABLE, priority = 10)
     public void loadConverter() {
         DataConverter converter = new DataConverter(this);
-        if(converter.isOutdated()) {
+        if (converter.isOutdated()) {
             converter.convert();
         }
     }
@@ -163,12 +163,12 @@ public class MarriageCore extends MarriageBase {
     @Override
     public MPlayer getMPlayer(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
-        if(player != null && player.isOnline()) {
+        if (player != null && player.isOnline()) {
             return getMPlayer(player);
         }
 
         MarriagePlayer mp = players.get(uuid);
-        if(mp == null) {
+        if (mp == null) {
             // Load from database, but don't save.
             mp = dataManager.loadPlayer(uuid);
         }
@@ -179,7 +179,7 @@ public class MarriageCore extends MarriageBase {
     @Override
     public MPlayer getMPlayer(Player player) {
         MarriagePlayer mp = players.get(player.getUniqueId());
-        if(mp == null) {
+        if (mp == null) {
             mp = dataManager.loadPlayer(player.getUniqueId());
             players.put(player.getUniqueId(), mp);
         }
@@ -196,7 +196,7 @@ public class MarriageCore extends MarriageBase {
     public MData marry(MPlayer player1, MPlayer player2, MPlayer priest) {
         PlayerMarryEvent event = new PlayerMarryEvent(player1, player2, priest);
         Bukkit.getPluginManager().callEvent(event);
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             return null;
         }
 
@@ -244,7 +244,7 @@ public class MarriageCore extends MarriageBase {
      */
     public void unloadPlayer(UUID uuid) {
         final MarriagePlayer mPlayer = players.remove(uuid);
-        if(mPlayer != null) {
+        if (mPlayer != null) {
             new Thread() {
                 @Override
                 public void run() {
@@ -255,7 +255,7 @@ public class MarriageCore extends MarriageBase {
     }
 
     public void unloadAll() {
-        for(MarriagePlayer mp : players.values()) {
+        for (MarriagePlayer mp : players.values()) {
             dataManager.savePlayer(mp);
         }
         players.clear();

@@ -17,13 +17,13 @@ public class CommandHome extends Command {
     public void execute() {
         MPlayer mPlayer = marriage.getMPlayer(player);
         MData marriage = mPlayer.getMarriage();
-        if(marriage == null) {
+        if (marriage == null) {
             reply(Message.NOT_MARRIED);
             return;
         }
 
         Location home = marriage.getHome();
-        if(home == null) {
+        if (home == null) {
             reply(Message.HOME_NOT_SET);
             return;
         }

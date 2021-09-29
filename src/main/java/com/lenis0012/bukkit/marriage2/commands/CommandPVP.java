@@ -20,7 +20,7 @@ public class CommandPVP extends Command {
     public void execute() {
         MPlayer mPlayer = marriage.getMPlayer(player);
         MData marriage = mPlayer.getMarriage();
-        if(marriage == null) {
+        if (marriage == null) {
             reply(Message.NOT_MARRIED);
             return;
         }
@@ -30,7 +30,7 @@ public class CommandPVP extends Command {
         reply(value ? Message.PVP_ENABLED : Message.PVP_DISABLED);
 
         Player partner = Bukkit.getPlayer(marriage.getOtherPlayer(player.getUniqueId()));
-        if(partner == null) {
+        if (partner == null) {
             return;
         }
 
@@ -38,7 +38,7 @@ public class CommandPVP extends Command {
     }
 
     private boolean value(MData marriage) {
-        if(getArgLength() == 0) {
+        if (getArgLength() == 0) {
             // Toggle
             return !marriage.isPVPEnabled();
         }

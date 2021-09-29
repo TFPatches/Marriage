@@ -12,17 +12,17 @@ public class Dependencies {
 
     public Dependencies(MarriageCore core) {
         boolean useEconomy = Settings.ECONOMY_ENABLED.value();
-        if(!useEconomy) {
+        if (!useEconomy) {
             return;
         }
 
-        if(!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+        if (!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             core.getLogger().log(Level.WARNING, "Couldn't detect Vault, economy settings will not work");
             return;
         }
 
         RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
-        if(economyProvider != null) {
+        if (economyProvider != null) {
             economyService = economyProvider.getProvider();
             core.getLogger().log(Level.INFO, "Hooked with " + economyService.getName() + " using Vault");
         } else {

@@ -25,7 +25,7 @@ public enum Driver {
                 + "priest BIT,"
                 + "lastlogin BIGINT);", prefix));
 
-        switch(this) {
+        switch (this) {
             case MYSQL:
                 statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %smarriages ("
                         + "id INT NOT NULL AUTO_INCREMENT,"

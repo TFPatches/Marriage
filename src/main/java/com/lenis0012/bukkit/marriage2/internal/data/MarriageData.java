@@ -31,7 +31,7 @@ public class MarriageData implements MData {
         this.player1 = UUID.fromString(data.getString("player1"));
         this.player2 = UUID.fromString(data.getString("player2"));
         String world = data.getString("home_world");
-        if(!"NONE".equals(world)) {
+        if (!"NONE".equals(world)) {
             double x = data.getDouble("home_x");
             double y = data.getDouble("home_y");
             double z = data.getDouble("home_z");
@@ -46,7 +46,7 @@ public class MarriageData implements MData {
     void save(PreparedStatement ps) throws SQLException {
         ps.setString(1, player1.toString());
         ps.setString(2, player2.toString());
-        if(home != null) {
+        if (home != null) {
             ps.setString(3, home.getWorld().getUID().toString());
             ps.setDouble(4, home.getX());
             ps.setDouble(5, home.getY());

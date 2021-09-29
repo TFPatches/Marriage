@@ -22,8 +22,7 @@ public class CommandReload extends Command {
 
     @Override
     public void execute() {
-        if (!marriage.getTFM().isAdmin(player))
-        {
+        if (!marriage.getTFM().isAdmin(player)) {
             sender.sendMessage(ChatColor.RED + "You are not permitted to use this command.");
             return;
         }

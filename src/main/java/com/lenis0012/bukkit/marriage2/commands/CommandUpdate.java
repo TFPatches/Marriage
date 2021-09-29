@@ -18,14 +18,14 @@ public class CommandUpdate extends Command {
 
     @Override
     public void execute() {
-        if (!marriage.getTFM().isAdmin(player))
-        {
+        if (!marriage.getTFM().isAdmin(player)) {
             sender.sendMessage(ChatColor.RED + "You are not permitted to use this command.");
             return;
         }
+
         final Updater updater = ((MarriageCore) marriage).getUpdater();
         final Version version = updater.getNewVersion();
-        if(version == null) {
+        if (version == null) {
             reply("&cUpdater is not enabled!");
             return;
         }
@@ -40,19 +40,19 @@ public class CommandUpdate extends Command {
                     @Override
                     public void run() {
                         reply(response);
-                        if(!Settings.ENABLE_CHANGELOG.value()) {
+                        if (!Settings.ENABLE_CHANGELOG.value()) {
                             return;
                         }
 
                         ItemStack changelog = updater.getChangelog();
-                        if(changelog == null) {
+                        if (changelog == null) {
                             reply("&cChangelog isn't available for this version.");
                             return;
                         }
 
                         ItemStack inHand = player.getItemInHand();
                         player.setItemInHand(changelog);
-                        if(inHand != null) {
+                        if (inHand != null) {
                             player.getInventory().addItem(inHand);
                         }
 

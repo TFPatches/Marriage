@@ -53,13 +53,13 @@ public abstract class Command {
 
     protected Player getArgAsPlayer(int index) {
         String name = getArg(index);
-        for(Player player : Bukkit.getOnlinePlayers()) {
-            if(player.getName().equalsIgnoreCase(name)) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getName().equalsIgnoreCase(name)) {
                 return player;
             }
         }
-        for(Player player : Bukkit.getOnlinePlayers()) {
-            if(player.getName().toLowerCase().contains(name.toLowerCase())) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getName().toLowerCase().contains(name.toLowerCase())) {
                 return player;
             }
         }
@@ -74,7 +74,7 @@ public abstract class Command {
     protected int getArgAsInt(int index, int def) {
         try {
             return Integer.parseInt(getArg(index));
-        } catch(Exception e) {
+        } catch (Exception e) {
             return def;
         }
     }
@@ -170,12 +170,12 @@ public abstract class Command {
     }
 
     protected void setExecutionFee(ConfigOption<Double> setting) {
-        if(!Settings.ECONOMY_ENABLED.value() || !Settings.ECONOMY_SHOW_PRICE.value()) {
+        if (!Settings.ECONOMY_ENABLED.value() || !Settings.ECONOMY_SHOW_PRICE.value()) {
             return;
         }
 
         Dependencies dependencies = marriage.dependencies();
-        if(!dependencies.isEconomyEnabled()) {
+        if (!dependencies.isEconomyEnabled()) {
             return;
         }
 
@@ -187,14 +187,14 @@ public abstract class Command {
     }
 
     protected boolean hasFee() {
-        if(executionFee <= 0 || player == null) return true; // Success!
+        if (executionFee <= 0 || player == null) return true; // Success!
         return marriage.dependencies().getEconomyService().has(player, executionFee);
     }
 
     protected boolean payFee() {
-        if(executionFee <= 0 || player == null) return true; // Success!
+        if (executionFee <= 0 || player == null) return true; // Success!
 
-        if(marriage.dependencies().getEconomyService().has(player, executionFee)) {
+        if (marriage.dependencies().getEconomyService().has(player, executionFee)) {
             EconomyResponse response = marriage.dependencies().getEconomyService().withdrawPlayer(player, executionFee);
             reply(Message.PAID_FEE, marriage.dependencies().getEconomyService().format(executionFee));
             return response.transactionSuccess();

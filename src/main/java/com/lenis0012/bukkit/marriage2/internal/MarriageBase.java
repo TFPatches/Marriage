@@ -25,7 +25,7 @@ public abstract class MarriageBase implements Marriage {
         this.plugin = plugin;
         try {
             this.classPath = ClassPath.from(getClass().getClassLoader());
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Failed to intialize class path!", e);
         }
     }
@@ -40,15 +40,14 @@ public abstract class MarriageBase implements Marriage {
         Bukkit.getPluginManager().registerEvents(listener, plugin);
     }
 
-    public TFM getTFM()
-    {
+    public TFM getTFM() {
         return tfm;
     }
 
     @Override
     public void register(Class<? extends Command> commandClass, Class<? extends Command>... commandClasses) {
         commandExecutor.register(commandClass);
-        for(Class<? extends Command> cmdclass : commandClasses) {
+        for (Class<? extends Command> cmdclass : commandClasses) {
             commandExecutor.register(cmdclass);
         }
     }
@@ -76,13 +75,13 @@ public abstract class MarriageBase implements Marriage {
     @SuppressWarnings("unchecked")
     protected <T> List<Class<? extends T>> findClasses(String pkg, Class<T> type, Object... params) {
         List<Class<? extends T>> list = Lists.newArrayList();
-        for(ClassPath.ClassInfo info : classPath.getTopLevelClassesRecursive(pkg)) {
+        for (ClassPath.ClassInfo info : classPath.getTopLevelClassesRecursive(pkg)) {
             try {
                 Class<?> clazz = Class.forName(info.getName());
-                if(type.isAssignableFrom(clazz) && !type.equals(clazz)) {
+                if (type.isAssignableFrom(clazz) && !type.equals(clazz)) {
                     list.add((Class<? extends T>) clazz);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 plugin.getLogger().log(Level.WARNING, "Failed to intiate class", e);
             }
         }
@@ -92,10 +91,10 @@ public abstract class MarriageBase implements Marriage {
 
     protected <T> List<T> findObjects(String pkg, Class<T> type, Object... params) {
         List<T> list = Lists.newArrayList();
-        for(Class<? extends T> clazz : findClasses(pkg, type)) {
+        for (Class<? extends T> clazz : findClasses(pkg, type)) {
             try {
                 list.add(type.cast(clazz.getConstructors()[0].newInstance(params)));
-            } catch(Exception e) {
+            } catch (Exception e) {
                 plugin.getLogger().log(Level.WARNING, "Failed to construct class", e);
             }
         }

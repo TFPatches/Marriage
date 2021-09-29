@@ -22,18 +22,18 @@ public class UpdateListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        if(Permissions.UPDATE.has(player)) {
+        if (Permissions.UPDATE.has(player)) {
             final Updater updater = core.getUpdater();
             Bukkit.getScheduler().runTaskLaterAsynchronously(core.getPlugin(), new Runnable() {
                 @Override
                 public void run() {
                     boolean update = false;
-                    if(update) {
+                    if (update) {
                         Bukkit.getScheduler().runTask(core.getPlugin(), new Runnable() {
                             @Override
                             public void run() {
                                 Version version = updater.getNewVersion();
-                                if(version == null) return;
+                                if (version == null) return;
                                 String message = ChatColor.translateAlternateColorCodes('&',
                                         String.format(Message.UPDATE_AVAILABLE.toString(),
                                                 version.getName(), version.getServerVersion()));
