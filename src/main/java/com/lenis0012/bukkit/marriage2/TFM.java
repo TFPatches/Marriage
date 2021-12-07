@@ -23,6 +23,6 @@ public class TFM {
     }
 
     public boolean isAdmin(Player player) {
-        return getTFM().al.isAdmin(player);
+        return getTFM().adminList.isAdmin(player);
     }
 }
